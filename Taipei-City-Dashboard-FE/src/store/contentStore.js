@@ -618,7 +618,8 @@ export const useContentStore = defineStore("content", {
 
 		async getComponentDynamicInfo(component_id) {
 			const response = await http.get(`/event/component/${component_id}?minutes=60`)
-			const data = response.data.data || {};
+			
+			const data = response.data.data || null;
 			this.currentComponentDynamicInfo = data;
 		},
 

@@ -11,6 +11,7 @@ import router from "../router/index";
 import { useContentStore } from "./contentStore";
 import { useDialogStore } from "./dialogStore";
 import { useMapStore } from "./mapStore";
+import { v4 as uuidv4 } from 'uuid';
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
@@ -174,7 +175,7 @@ export const useAuthStore = defineStore("auth", {
 
 		// 3. Create Device ID
 		createDeviceID() {
-		  const deviceId = crypto.randomUUID();
+		  const deviceId = uuidv4();
 		  localStorage.setItem("device_id", deviceId);
 		  return deviceId;
 		},
