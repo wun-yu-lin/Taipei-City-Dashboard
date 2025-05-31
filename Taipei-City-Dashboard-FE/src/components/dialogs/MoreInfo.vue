@@ -147,27 +147,35 @@ function handleCloseDialog() {
               </div>
             </div>
           </div>
-		  <div v-if="contentStore.currentComponentDynamicInfo" class="moreinfo-info-statistics"
-			@mouseenter="changeShowStatisticsTooltipState(true)"
-			@mousemove="updateMouseLocation"
-			@mouseleave="changeShowStatisticsTooltipState(false)" 
-		  >
-		    <div class="moreinfo-info-statistics-title">
-				<h3>動態資訊</h3>
-				<button :class="{'hide-button': !authStore.isMobileDevice}" @click="changeShowMobileStatisticsTooltipState">
-					<span class="icon">info</span>
-				</button>
-				<div v-if="showMobileStatisticsTooltip" class="chart-tooltip mobile-tooltip">
-					<p>來源：系統日誌分析</p>
-					<p>數據計算開始時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_start).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
-					<p>數據計算結束時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_end).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
-				</div>
-			</div>
-			<div class="moreinfo-info-statistics-content">
-				<p><span class="icon">visibility</span>組件點閱人數：{{`${contentStore.currentComponentDynamicInfo.total_count}`}} 次</p>
-				<p><span class="icon">timer</span>平均停留時間：{{`${contentStore.currentComponentDynamicInfo.average_duration_sec}`}} 秒</p>
-			</div>
-		  </div>
+          <div
+            v-if="contentStore.currentComponentDynamicInfo"
+            class="moreinfo-info-statistics"
+            @mouseenter="changeShowStatisticsTooltipState(true)"
+            @mousemove="updateMouseLocation"
+            @mouseleave="changeShowStatisticsTooltipState(false)" 
+          >
+            <div class="moreinfo-info-statistics-title">
+              <h3>動態資訊</h3>
+              <button
+                :class="{'hide-button': !authStore.isMobileDevice}"
+                @click="changeShowMobileStatisticsTooltipState"
+              >
+                <span class="icon">info</span>
+              </button>
+              <div
+                v-if="showMobileStatisticsTooltip"
+                class="chart-tooltip mobile-tooltip"
+              >
+                <p>來源：系統日誌分析</p>
+                <p>數據計算開始時間：{{ `${dayjs(contentStore.currentComponentDynamicInfo.measured_start).format('YYYY/MM/DD HH:mm:ss')}` }}</p>
+                <p>數據計算結束時間：{{ `${dayjs(contentStore.currentComponentDynamicInfo.measured_end).format('YYYY/MM/DD HH:mm:ss')}` }}</p>
+              </div>
+            </div>
+            <div class="moreinfo-info-statistics-content">
+              <p><span class="icon">visibility</span>組件點閱人數：{{ `${contentStore.currentComponentDynamicInfo.total_count}` }} 次</p>
+              <p><span class="icon">timer</span>平均停留時間：{{ `${Math.round(contentStore.currentComponentDynamicInfo.average_duration_sec)}` }} 秒</p>
+            </div>
+          </div>
         </div>
         <div class="moreinfo-info-control">
           <button
@@ -201,11 +209,15 @@ function handleCloseDialog() {
     </div>
   </DialogContainer>
   <Teleport to="body">
-	<div v-if="showStatisticsTooltip && contentStore.currentComponentDynamicInfo" class="chart-tooltip tooltip" :style="tooltipPosition">
-		<p>來源：系統日誌分析</p>
-		<p>數據計算開始時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_start).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
-		<p>數據計算結束時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_end).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
-	</div>
+    <div
+      v-if="showStatisticsTooltip && contentStore.currentComponentDynamicInfo"
+      class="chart-tooltip tooltip"
+      :style="tooltipPosition"
+    >
+      <p>來源：系統日誌分析</p>
+      <p>數據計算開始時間：{{ `${dayjs(contentStore.currentComponentDynamicInfo.measured_start).format('YYYY/MM/DD HH:mm:ss')}` }}</p>
+      <p>數據計算結束時間：{{ `${dayjs(contentStore.currentComponentDynamicInfo.measured_end).format('YYYY/MM/DD HH:mm:ss')}` }}</p>
+    </div>
   </Teleport>
 </template>
 
