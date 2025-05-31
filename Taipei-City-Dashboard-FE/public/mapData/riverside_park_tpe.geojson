@@ -1,0 +1,335 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.6011449566, 25.0585683067]
+			},
+			"properties": {
+				"name": "南湖左岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5965026441, 25.0602977957]
+			},
+			"properties": {
+				"name": "南湖右岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5782064713, 25.0520872743]
+			},
+			"properties": {
+				"name": "成美左岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5861439154, 25.0556918934]
+			},
+			"properties": {
+				"name": "成美右岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5693587698, 25.0618088229]
+			},
+			"properties": {
+				"name": "觀山",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5723444139, 25.0601339493]
+			},
+			"properties": {
+				"name": "彩虹",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5563967051, 25.0736057582]
+			},
+			"properties": {
+				"name": "迎風",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5616761977, 25.0747344773]
+			},
+			"properties": {
+				"name": "美堤",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5355336, 25.07502576]
+			},
+			"properties": {
+				"name": "大佳",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5333126, 25.07772012]
+			},
+			"properties": {
+				"name": "圓山",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5131049, 25.08540269]
+			},
+			"properties": {
+				"name": "百齡左岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5154351, 25.08496577]
+			},
+			"properties": {
+				"name": "百齡右岸",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.57247185, 24.9909179802]
+			},
+			"properties": {
+				"name": "道南",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5448000264, 24.9850923332]
+			},
+			"properties": {
+				"name": "木柵",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5364984794, 24.9910818265]
+			},
+			"properties": {
+				"name": "景美",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5340954, 25.0051908155]
+			},
+			"properties": {
+				"name": "溪洲",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.524810775, 25.0154221082]
+			},
+			"properties": {
+				"name": "古亭",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5141425588, 25.0228862184]
+			},
+			"properties": {
+				"name": "中正",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5033287014, 25.0182985214]
+			},
+			"properties": {
+				"name": "馬場町紀念公園",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.4933158705, 25.0142569787]
+			},
+			"properties": {
+				"name": "華中",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.4871625308, 25.033226742]
+			},
+			"properties": {
+				"name": "雙園",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.50562255, 25.0504852214]
+			},
+			"properties": {
+				"name": "龍山",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.4627676338, 25.1174437523]
+			},
+			"properties": {
+				"name": "關渡水岸公園",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5041297279, 25.0862037199]
+			},
+			"properties": {
+				"name": "延平河濱",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.4903666367, 25.0985832199]
+			},
+			"properties": {
+				"name": "福安",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.4770404691, 25.1047001493]
+			},
+			"properties": {
+				"name": "富州",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5275779573, 25.1005129655]
+			},
+			"properties": {
+				"name": "雙溪",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.5145066617, 25.0992750155]
+			},
+			"properties": {
+				"name": "河雙21號",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.49522, 25.03871]
+			},
+			"properties": {
+				"name": "華江雁鴨自然公園",
+				"city": "taipei"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [121.466076, 25.109832]
+			},
+			"properties": {
+				"name": "社子島環島(待命名)",
+				"city": "taipei"
+			}
+		}
+	]
+}
