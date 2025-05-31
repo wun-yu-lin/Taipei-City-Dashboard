@@ -89,10 +89,8 @@ func GetEventInfoByComponentId(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid minutes"})
 		return
 	}
-
-	now := time.Now().UTC()
-	gteTime := now.Add(-time.Duration(minutes) * time.Minute).Format(time.RFC3339Nano)
-	lteTime := now.Format(time.RFC3339Nano)
+	endTime := time.Now().UTC()
+	startTime := endTime.Add(-30 * time.Minute)
 
 	payload := map[string]interface{}{
 		"size": 0,
@@ -107,8 +105,8 @@ func GetEventInfoByComponentId(c *gin.Context) {
 					map[string]interface{}{
 						"range": map[string]interface{}{
 							"enter_time": map[string]interface{}{
-								"gte": gteTime,
-								"lte": lteTime,
+								"gte": startTime.Format(time.RFC3339Nano),
+								"lte": endTime.Format(time.RFC3339Nano),
 							},
 						},
 					},
@@ -170,13 +168,13 @@ func GetEventInfoByComponentId(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to parse Elasticsearch response"})
 		return
 	}
-
+	logs.Info(rawResp)
 	response := &ComponentDurationResponse{
 		TotalCount:          rawResp.Hits.Total.Value,
 		AverageDurationSec:  rawResp.Aggregations.AvgDurationSec.Value,
 		MeasuredOverMinutes: minutes,
-		MeasuredStart:       gteTime,
-		MeasuredEnd:         lteTime,
+		MeasuredStart:       startTime.Format(time.RFC3339Nano),
+		MeasuredEnd:         endTime.Format(time.RFC3339Nano),
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "data": response})
