@@ -38,6 +38,8 @@ function toggleFavorite(id) {
 	}
 }
 function handleMoreInfo(item) {
+	contentStore.getComponentDynamicInfo(item.index);
+
 	if (authStore.isMobileDevice && authStore.isNarrowDevice) {
 		router.push({
 			name: "component-info",

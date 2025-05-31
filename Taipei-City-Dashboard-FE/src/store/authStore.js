@@ -11,6 +11,7 @@ import router from "../router/index";
 import { useContentStore } from "./contentStore";
 import { useDialogStore } from "./dialogStore";
 import { useMapStore } from "./mapStore";
+import { v4 as uuidv4 } from 'uuid';
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
@@ -55,6 +56,10 @@ export const useAuthStore = defineStore("auth", {
 					mapStore.fetchViewPoints();
 				}
 				this.editUser = JSON.parse(JSON.stringify(this.user));
+			}
+
+			if (!localStorage.getItem("device_id")) {
+				this.createDeviceID();
 			}
 
 			contentStore.setContributors();
@@ -167,5 +172,20 @@ export const useAuthStore = defineStore("auth", {
 		setCurrentPath(path) {
 			this.currentPath = path;
 		},
+
+		// 3. Create Device ID
+		createDeviceID() {
+		  const deviceId = uuidv4();
+		  localStorage.setItem("device_id", deviceId);
+		  return deviceId;
+		},
+
+		// 4. Get Device ID, if not exist, create one
+		getDeviceID() {
+			if (!localStorage.getItem("device_id")) {
+				this.createDeviceID();
+			}
+			return localStorage.getItem("device_id");
+		}
 	},
 });

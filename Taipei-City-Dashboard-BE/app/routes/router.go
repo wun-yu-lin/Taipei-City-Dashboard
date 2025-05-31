@@ -39,6 +39,7 @@ func ConfigureRoutes() {
 	configureIncidentRoutes()
 	// configureWsRoutes()
 	configureContributorRoutes()
+	configureEventRoutes()
 }
 
 func configureAuthRoutes() {
@@ -169,6 +170,14 @@ func configureContributorRoutes() {
 		contributorRoutes.POST("/", controllers.CreateContributor)
 		contributorRoutes.PATCH("/:id", controllers.UpdateContributor)
 		contributorRoutes.DELETE("/:id", controllers.DeleteContributor)
+	}
+}
+
+func configureEventRoutes() {
+	eventRoutes := RouterGroup.Group("/event")
+	{
+		eventRoutes.POST("/component/push", controllers.PushEventMessageToELK)
+		eventRoutes.GET("/component/:id", controllers.GetEventInfoByComponentId)
 	}
 }
 
