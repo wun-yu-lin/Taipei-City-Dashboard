@@ -94,6 +94,11 @@ function shouldDisable(map_config) {
 			.length > 0
 	);
 }
+
+function handleMoreInfo(item) {
+	dialogStore.showMoreInfo(item);
+	contentStore.getComponentDynamicInfo(item.index);
+}
 </script>
 
 <template>
@@ -119,7 +124,7 @@ function shouldDisable(map_config) {
           :toggle-on="toggleOn.mapLayer[arrayIdx]"
           @info="
             (item) => {
-              dialogStore.showMoreInfo(item);
+				handleMoreInfo(item);
             }
           "
           @toggle="
@@ -198,7 +203,7 @@ function shouldDisable(map_config) {
           :toggle-on="toggleOn.hasMap[arrayIdx]"
           @info="
             (item) => {
-              dialogStore.showMoreInfo(item);
+				handleMoreInfo(item);
             }
           "
           @toggle="
@@ -277,7 +282,7 @@ function shouldDisable(map_config) {
           :toggle-on="toggleOn.basicLayer[arrayIdx]"
           @info="
             (item) => {
-              dialogStore.showMoreInfo(item);
+				handleMoreInfo(item);
             }
           "
           @toggle="
@@ -345,7 +350,7 @@ function shouldDisable(map_config) {
           :toggle-on="toggleOn.noMap[arrayIdx]"
           @info="
             (item) => {
-              dialogStore.showMoreInfo(item);
+              handleMoreInfo(item);
             }
           "
           @toggle="

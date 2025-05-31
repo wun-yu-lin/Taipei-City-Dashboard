@@ -45,6 +45,7 @@ function handleMoreInfo(item) {
 		});
 	} else {
 		dialogStore.showMoreInfo(item);
+		contentStore.getComponentDynamicInfo(item.index);
 	}
 }
 </script>

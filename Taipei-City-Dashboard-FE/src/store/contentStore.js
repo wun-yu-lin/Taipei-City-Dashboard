@@ -64,6 +64,7 @@ export const useContentStore = defineStore("content", {
 		// Stores whether an error occurred
 		error: false,
 		ws: false,
+		currentComponentDynamicInfo: null
 	}),
 	getters: {},
 	actions: {
@@ -613,6 +614,12 @@ export const useContentStore = defineStore("content", {
 				}
 				this.loading = false;
 			}
+		},
+
+		async getComponentDynamicInfo(component_id) {
+			const response = await http.get(`/api/v1/event/component/${component_id}?minutes=60`)
+			const data = response.data.data || {};
+			this.currentComponentDynamicInfo = data;
 		},
 
 		/* Common Methods to Edit Dashboards */

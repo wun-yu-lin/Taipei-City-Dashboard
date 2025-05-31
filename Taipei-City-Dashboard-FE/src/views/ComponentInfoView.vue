@@ -9,7 +9,7 @@ Testing: Jack Huang (Data Scientist), Ian Huang (Data Analysis Intern)
 <!-- Department of Information Technology, Taipei City Government -->
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import router from "../router";
 import DashboardComponent from "../dashboardComponent/DashboardComponent.vue";
 import { useContentStore } from "../store/contentStore";
@@ -20,7 +20,10 @@ import HistoryChart from "../components/charts/HistoryChart.vue";
 import ReportIssue from "../components/dialogs/ReportIssue.vue";
 import DownloadData from "../components/dialogs/DownloadData.vue";
 import EmbedComponent from "../components/dialogs/EmbedComponent.vue";
+import { useRoute } from 'vue-router'
 
+const route = useRoute()
+const componentIndex = route.params.index;
 const contentStore = useContentStore();
 const dialogStore = useDialogStore();
 const authStore = useAuthStore();
@@ -44,7 +47,13 @@ function toggleFavorite(id) {
 
 onMounted(() => {
 	contentStore.getAllComponents(searchParams.value);
+	dialogStore.setComponentInfoEnterTime();
 });
+
+onUnmounted(() => {
+	const deviceId = authStore.getDeviceID();
+	dialogStore.sendComponentViewEvent(deviceId, componentIndex);
+})
 </script>
 
 <template>

@@ -57,6 +57,10 @@ export const useAuthStore = defineStore("auth", {
 				this.editUser = JSON.parse(JSON.stringify(this.user));
 			}
 
+			if (!localStorage.getItem("device_id")) {
+				this.createDeviceID();
+			}
+
 			contentStore.setContributors();
 		},
 		// 2. Email Login
@@ -167,5 +171,20 @@ export const useAuthStore = defineStore("auth", {
 		setCurrentPath(path) {
 			this.currentPath = path;
 		},
+
+		// 3. Create Device ID
+		createDeviceID() {
+		  const deviceId = crypto.randomUUID();
+		  localStorage.setItem("device_id", deviceId);
+		  return deviceId;
+		},
+
+		// 4. Get Device ID, if not exist, create one
+		getDeviceID() {
+			if (!localStorage.getItem("device_id")) {
+				this.createDeviceID();
+			}
+			return localStorage.getItem("device_id");
+		}
 	},
 });
