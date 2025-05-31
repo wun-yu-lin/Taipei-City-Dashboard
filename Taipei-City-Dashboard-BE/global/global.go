@@ -33,7 +33,8 @@ type RedisConfig struct {
 }
 
 type ELKConfig struct {
-	URL               string
+	LogstashURL       string
+	ElasticSearchURL  string
 	BufferSize        int
 	WorkerCount       int
 	ConnectionMaxIdle int
@@ -89,7 +90,8 @@ var (
 	}
 
 	ELK = ELKConfig{
-		URL:               getEnv("ELK_URL", "logstash-elk"),
+		LogstashURL:       getEnv("LOGSTASH_URL", "logstash-elk"),
+		ElasticSearchURL:  getEnv("ELASTICSEARCH_URL", "http://elasticsearch-elk:9200"),
 		BufferSize:        getIntEnv("ELK_BUFFER_SIZE", 2),
 		WorkerCount:       getIntEnv("ELK_WORKER_COUNT", 2),
 		ConnectionMaxIdle: getIntEnv("ELK_CONNECTION_MAXIDLE", 2),

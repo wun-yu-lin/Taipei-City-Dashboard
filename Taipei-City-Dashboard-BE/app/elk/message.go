@@ -15,7 +15,7 @@ var MessageWorker *WorkerPool
 
 func InitWorkerPool() {
 	// Step 1: create ELK TCP connection pool
-	connPool := NewConnectionPool(global.ELK.URL, global.ELK.ConnectionMaxIdle, 5*time.Second, 30*time.Second)
+	connPool := NewConnectionPool(global.ELK.LogstashURL, global.ELK.ConnectionMaxIdle, 5*time.Second, 30*time.Second)
 
 	// Step 2: create worker pool
 	workerPool := NewWorkerPool(global.ELK.BufferSize, global.ELK.WorkerCount, connPool)
