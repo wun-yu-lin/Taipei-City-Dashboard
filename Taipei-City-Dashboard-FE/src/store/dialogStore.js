@@ -127,7 +127,7 @@ export const useDialogStore = defineStore("dialog", {
 				}
 			}
 		
-			await http.post(`/api/v1/event/component/push`, eventPayload);
+			await http.post(`/event/component/push`, eventPayload);
 		},
 	},
 });
