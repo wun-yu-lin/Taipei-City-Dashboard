@@ -31,6 +31,7 @@ import (
 func StartApplication() {
 	// 0. create ELK message worker pool
 	elk.InitWorkerPool()
+	elk.InitESClient()
 
 	// 1. Connect to postgreSQL and Redis
 	models.ConnectToDatabases("MANAGER", "DASHBOARD")

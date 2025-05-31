@@ -15,7 +15,7 @@ var MessageWorker *WorkerPool
 
 func InitWorkerPool() {
 	// Step 1: create ELK TCP connection pool
-	connPool := NewConnectionPool(global.ELK.URL, global.ELK.ConnectionMaxIdle, 5*time.Second, 30*time.Second)
+	connPool := NewConnectionPool(global.ELK.LogstashURL, global.ELK.ConnectionMaxIdle, 5*time.Second, 30*time.Second)
 
 	// Step 2: create worker pool
 	workerPool := NewWorkerPool(global.ELK.BufferSize, global.ELK.WorkerCount, connPool)
@@ -44,8 +44,11 @@ type ElkMessage struct {
 	ResponseBody    string        `json:"response_body"`
 }
 
+// 所有 payload 都要是 struct
+type ELKPayload interface{}
+
 type MessageRingBuffer struct {
-	buffer   []ElkMessage
+	buffer   []ELKPayload
 	size     int
 	head     int
 	tail     int
@@ -57,7 +60,7 @@ type MessageRingBuffer struct {
 
 func NewRingBuffer(size int) *MessageRingBuffer {
 	rb := &MessageRingBuffer{
-		buffer: make([]ElkMessage, size),
+		buffer: make([]ELKPayload, size),
 		size:   size,
 	}
 	rb.notEmpty = sync.NewCond(&rb.mutex)
@@ -65,7 +68,7 @@ func NewRingBuffer(size int) *MessageRingBuffer {
 	return rb
 }
 
-func (rb *MessageRingBuffer) Pub(msg ElkMessage) {
+func (rb *MessageRingBuffer) Pub(msg ELKPayload) {
 	rb.mutex.Lock()
 	defer rb.mutex.Unlock()
 	for rb.count >= rb.size {
@@ -77,7 +80,7 @@ func (rb *MessageRingBuffer) Pub(msg ElkMessage) {
 	rb.notEmpty.Signal()
 }
 
-func (rb *MessageRingBuffer) Sub() ElkMessage {
+func (rb *MessageRingBuffer) Sub() ELKPayload {
 	rb.mutex.Lock()
 	defer rb.mutex.Unlock()
 	for rb.count == 0 {
@@ -214,7 +217,7 @@ func (wp *WorkerPool) start() {
 	}
 }
 
-func (wp *WorkerPool) Submit(evt ElkMessage) error {
+func (wp *WorkerPool) Submit(evt ELKPayload) error {
 	select {
 	case <-wp.closed:
 		return errors.New("worker pool is closed")
@@ -225,7 +228,7 @@ func (wp *WorkerPool) Submit(evt ElkMessage) error {
 	}
 }
 
-func (wp *WorkerPool) handle(evt ElkMessage) error {
+func (wp *WorkerPool) handle(evt ELKPayload) error {
 	conn, err := wp.poolConn.Get()
 	if err != nil {
 		return err
