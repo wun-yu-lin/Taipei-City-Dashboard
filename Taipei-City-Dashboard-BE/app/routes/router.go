@@ -173,7 +173,7 @@ func configureEventRoutes() {
 	eventRoutes := RouterGroup.Group("/event")
 	{
 		eventRoutes.POST("/component/push", controllers.PushEventMessageToELK)
-		eventRoutes.GET("/:id", controllers.GetEventInfoByComponentId)
+		eventRoutes.GET("/component/:id", controllers.GetEventInfoByComponentId)
 	}
 }
 
