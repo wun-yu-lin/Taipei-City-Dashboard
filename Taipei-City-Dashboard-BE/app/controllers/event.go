@@ -90,7 +90,12 @@ func GetEventInfoByComponentId(c *gin.Context) {
 		return
 	}
 	endTime := time.Now().UTC()
-	startTime := endTime.Add(-30 * time.Minute)
+	minutesStr = minutesStr + "m"
+	duration, err := time.ParseDuration(minutesStr)
+	if err != nil {
+		return
+	}
+	startTime := endTime.Add(-duration)
 
 	payload := map[string]interface{}{
 		"size": 0,
