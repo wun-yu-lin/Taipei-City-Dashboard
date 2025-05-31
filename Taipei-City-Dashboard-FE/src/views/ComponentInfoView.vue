@@ -27,6 +27,7 @@ const componentIndex = route.params.index;
 const contentStore = useContentStore();
 const dialogStore = useDialogStore();
 const authStore = useAuthStore();
+const showMobileStatisticsTooltipState = ref(false);
 
 const searchParams = ref({
 	searchbyindex: "",
@@ -45,9 +46,18 @@ function toggleFavorite(id) {
 	}
 }
 
+function changeShowMobileStatisticsTooltipState(){
+	showMobileStatisticsTooltipState.value = !showMobileStatisticsTooltipState.value
+}
+
 onMounted(() => {
 	contentStore.getAllComponents(searchParams.value);
 	dialogStore.setComponentInfoEnterTime();
+
+	// if there is no current component dynamic info in global state, then get it
+	if (!contentStore.currentComponentDynamicInfo) {
+		contentStore.getComponentDynamicInfo(componentIndex)
+	}
 });
 
 onUnmounted(() => {
@@ -235,6 +245,23 @@ onUnmounted(() => {
                 </a>
               </div>
             </div>
+          </div>
+		  <div v-if="contentStore.currentComponentDynamicInfo" class="componentinfoview-source-dynamicInfo">
+			<div class="componentinfoview-source-dynamicInfo-title">
+				<h3>動態資訊</h3>
+				<button @click="changeShowMobileStatisticsTooltipState">
+					<span class="icon">info</span>
+				</button>
+				<div v-if="showMobileStatisticsTooltip" class="chart-tooltip mobile-tooltip">
+					<p>來源：系統日誌分析</p>
+					<p>數據計算開始時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_start).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
+					<p>數據計算結束時間：{{`${dayjs(contentStore.currentComponentDynamicInfo.measured_end).format('YYYY/MM/DD HH:mm:ss')}`}}</p>
+				</div>
+			</div>
+			<div class="componentinfoview-source-dynamicInfo-content">
+				<p><span class="icon">visibility</span>組件點閱人數：{{`${contentStore.currentComponentDynamicInfo.total_count}`}} 次</p>
+				<p><span class="icon">timer</span>平均停留時間：{{`${contentStore.currentComponentDynamicInfo.average_duration_sec}`}} 秒</p>
+			</div>
           </div>
         </div>
         <ReportIssue />
@@ -522,6 +549,51 @@ onUnmounted(() => {
 				}
 			}
 		}
+
+		&-dynamicInfo {
+			border-radius: 5px;
+			padding: var(--font-m);
+	  		background-color: var(--color-component-background);
+			position: relative;
+
+			&-content {
+
+				p {
+					display: flex;
+					align-items: center;
+					gap: 4px;
+					margin-bottom: 2px;
+				}
+
+				.icon {
+					font-family: var(--font-icon);
+					font-size: var(--font-s);
+				}
+			}
+
+			&-title {
+				display: flex;
+				align-items: center;
+				gap: 2px;
+
+				.icon {
+					font-family: var(--font-icon);
+					font-size: var(--font-m);
+				}
+			}
+
+			.mobile-tooltip {
+				position: absolute;
+				top: -50px;
+				left: 70px;
+				z-index: 100;
+
+				p {
+					color: var(--color-normal-text);
+				}
+			}
+
+	}
 	}
 
 	&-nodashboard {

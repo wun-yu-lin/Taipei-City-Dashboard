@@ -355,7 +355,6 @@ function handleCloseDialog() {
 				p {
 					color: var(--color-normal-text);
 				}
-
 			}
 		}
 
