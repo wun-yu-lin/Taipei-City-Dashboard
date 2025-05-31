@@ -3,8 +3,12 @@ package controllers
 import (
 	"TaipeiCityDashboardBE/app/elk"
 	"TaipeiCityDashboardBE/logs"
+	"bytes"
+	"context"
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -69,6 +73,109 @@ func PushEventMessageToELK(c *gin.Context) {
 	return
 }
 
-func GetEventInfoByComponentId(c *gin.Context) {
+type ComponentDurationResponse struct {
+	TotalCount          int     `json:"total_count"`
+	AverageDurationSec  float64 `json:"average_duration_sec"`
+	MeasuredOverMinutes int     `json:"measured_over_minutes"`
+	MeasuredStart       string  `json:"measured_start"`
+	MeasuredEnd         string  `json:"measured_end"`
+}
 
+func GetEventInfoByComponentId(c *gin.Context) {
+	componentID := c.Param("id")
+	minutesStr := c.DefaultQuery("minutes", "60")
+	minutes, err := strconv.Atoi(minutesStr)
+	if err != nil || minutes <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid minutes"})
+		return
+	}
+	endTime := time.Now().UTC()
+	startTime := endTime.Add(-30 * time.Minute)
+
+	payload := map[string]interface{}{
+		"size": 0,
+		"query": map[string]interface{}{
+			"bool": map[string]interface{}{
+				"filter": []interface{}{
+					map[string]interface{}{
+						"term": map[string]interface{}{
+							"component_index": componentID,
+						},
+					},
+					map[string]interface{}{
+						"range": map[string]interface{}{
+							"enter_time": map[string]interface{}{
+								"gte": startTime.Format(time.RFC3339Nano),
+								"lte": endTime.Format(time.RFC3339Nano),
+							},
+						},
+					},
+				},
+			},
+		},
+		"aggs": map[string]interface{}{
+			"avg_duration_sec": map[string]interface{}{
+				"avg": map[string]interface{}{
+					"field": "duration_sec",
+				},
+			},
+		},
+	}
+
+	body, err := json.Marshal(payload)
+	if err != nil {
+		logs.Error("GetEventInfoByComponentId marshal payload error:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
+		return
+	}
+
+	// 使用 elk.ESClient 直接執行搜尋
+	res, err := elk.ESClient.Search(
+		elk.ESClient.Search.WithContext(context.Background()),
+		elk.ESClient.Search.WithIndex("logstash-*"),
+		elk.ESClient.Search.WithBody(bytes.NewReader(body)),
+		elk.ESClient.Search.WithSize(0),
+	)
+	if err != nil {
+		logs.Error("Elasticsearch search error:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Elasticsearch query failed"})
+		return
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		logs.Error("Elasticsearch response error: " + res.String())
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Elasticsearch returned error"})
+		return
+	}
+
+	// 解析 ES 回傳 JSON
+	var rawResp struct {
+		Hits struct {
+			Total struct {
+				Value int `json:"value"`
+			} `json:"total"`
+		} `json:"hits"`
+		Aggregations struct {
+			AvgDurationSec struct {
+				Value float64 `json:"value"`
+			} `json:"avg_duration_sec"`
+		} `json:"aggregations"`
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&rawResp); err != nil {
+		logs.Error("GetEventInfoByComponentId decode response error:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to parse Elasticsearch response"})
+		return
+	}
+	logs.Info(rawResp)
+	response := &ComponentDurationResponse{
+		TotalCount:          rawResp.Hits.Total.Value,
+		AverageDurationSec:  rawResp.Aggregations.AvgDurationSec.Value,
+		MeasuredOverMinutes: minutes,
+		MeasuredStart:       startTime.Format(time.RFC3339Nano),
+		MeasuredEnd:         endTime.Format(time.RFC3339Nano),
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "success", "data": response})
 }
