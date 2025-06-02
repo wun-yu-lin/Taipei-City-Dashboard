@@ -94,16 +94,14 @@ flowchart LR
   CP1 --> E
   CP2 --> E
 
-  classDef buffer fill:#fdf6b2,stroke:#333,stroke-width:1px;
-  class R buffer;
-  classDef worker fill:#c3f0ca,stroke:#333,stroke-width:1px;
-  class W1,W2 worker;
-  classDef conn fill:#cce5ff,stroke:#333,stroke-width:1px;
-  class CP1,CP2 conn;
-  classDef elk fill:#fdd,stroke:#333,stroke-width:1px;
-  class E elk;
-  classDef middleware fill:#e0f7fa,stroke:#333,stroke-width:1px;
-  class B middleware;
+  %% Style Adjustments
+  style A fill:#f0f8ff,stroke:#000,fontSize:14px
+  style B fill:#e0ffff,stroke:#000,fontSize:14px
+  style C fill:#f5fffa,stroke:#000,fontSize:14px
+  style R fill:#fffacd,stroke:#000,fontSize:14px
+  style W1,W2 fill:#d0f0c0,stroke:#000,fontSize:14px
+  style CP1,CP2 fill:#dbe9ff,stroke:#000,fontSize:14px
+  style E fill:#ffdada,stroke:#000,fontSize:14px
 ```
 
 ## Usage
