@@ -25,7 +25,104 @@ Please refer to the [Docs](https://tuic.gov.taipei/documentation/front-end/proje
 ## Documentation
 
 Check out the complete documentation for Taipei City Dashboard [here](https://tuic.gov.taipei/documentation).
+## bug-chef Team Contribution
 
+A collaborative dashboard project that integrates various data sources from Taipei City, including real-time updates, geographic data, and a high-performance logging architecture. The project showcases teamwork and achievements from a hackathon.
+
+The bug-chef team contributed the following:
+
+1. **Health Guardian Dashboard Components**:
+
+   * Medical institution load for senior health checkups
+   * Vaccine site distribution
+   * Medical facility locations
+   * Yearly statistics of doctor-to-nurse ratio
+   * Number of riverside parks
+   * Quantity and types of sports facilities
+
+2. **Asynchronous ELK API Logging Architecture**
+   (Message Queue, Elasticsearch, Logstash, Kibana)
+
+## Health Guardian Dashboard Components
+
+<img src='./demo/bug-chef-component.png' style="width: 90%">
+
+<img src='./demo/bug-chef-mapbox.png' style="width: 90%">
+
+## Asynchronous ELK Logging Architecture
+
+1. When an API request is sent, middleware pushes the log message to a RingBuffer.
+2. Multiple workers consume messages from the RingBuffer and process them asynchronously.
+3. Workers use a connection pool to send messages to the backend ELK system.
+
+```mermaid
+
+flowchart LR
+  subgraph API workflow
+    A[API Request]
+    B[Middleware]
+    C[Controller - Handle Request]
+    A --> B
+    B --request--> C
+    C --response--> B
+  end
+
+  subgraph message buffer
+    B -- Pub message --> R((Ring Buffer))
+  end
+
+  subgraph Worker Pool[ELK Message Worker Pool]
+    W1[Worker #1]
+    W2[Worker #2]
+    R -- Sub Message --> W1
+    R -- Sub Message --> W2
+  end
+
+  subgraph Connection Pool
+    CP1[Connection #1]
+    CP2[Connection #2]
+  end
+
+  subgraph ELK
+    E[ELK System]
+  end
+
+  CP1 -- Get Conn --> W1
+  CP2 -- Get Conn --> W2
+  W1 -- Send Message --> CP1
+  W2 -- Send Message --> CP2
+  CP1 --> E
+  CP2 --> E
+
+  classDef buffer fill:#fdf6b2,stroke:#333,stroke-width:1px;
+  class R buffer;
+  classDef worker fill:#c3f0ca,stroke:#333,stroke-width:1px;
+  class W1,W2 worker;
+  classDef conn fill:#cce5ff,stroke:#333,stroke-width:1px;
+  class CP1,CP2 conn;
+  classDef elk fill:#fdd,stroke:#333,stroke-width:1px;
+  class E elk;
+  classDef middleware fill:#e0f7fa,stroke:#333,stroke-width:1px;
+  class B middleware;
+```
+
+## Usage
+
+```bash
+# Installation
+## Initialize ELK
+cd ./docker
+## Start ELK containers
+sudo docker compose -f docker-compose-elk.yaml up -d
+# Follow the rest of the steps in the documentation
+```
+
+## Key Features
+
+* **Asynchronous Logging**: Does not block the main execution flow; maintains API performance.
+* **RingBuffer**: Processes log messages in FIFO order efficiently.
+* **Worker Pool Design**: Supports dynamic scaling of concurrent workers.
+* **Connection Pool**: Enables high-concurrency message delivery to the ELK stack.
 ## Contributors
 
 Many thanks to the contributors to this project!
