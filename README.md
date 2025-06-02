@@ -95,13 +95,11 @@ flowchart LR
   CP2 --> E
 
   %% Style Adjustments
-  style A fill:#f0f8ff,stroke:#000,fontSize:14px
-  style B fill:#e0ffff,stroke:#000,fontSize:14px
-  style C fill:#f5fffa,stroke:#000,fontSize:14px
-  style R fill:#fffacd,stroke:#000,fontSize:14px
-  style W1,W2 fill:#d0f0c0,stroke:#000,fontSize:14px
-  style CP1,CP2 fill:#dbe9ff,stroke:#000,fontSize:14px
-  style E fill:#ffdada,stroke:#000,fontSize:14px
+  style A fill:#f0f8ff,stroke:#000,fontSize:14px,color:#000
+  style B fill:#e0ffff,stroke:#000,fontSize:14px,color:#000
+  style C fill:#f5fffa,stroke:#000,fontSize:14px,color:#000
+  style R fill:#fffacd,stroke:#000,fontSize:14px,color:#000
+  style E fill:#ffdada,stroke:#000,fontSize:14px,color:#000
 ```
 
 ## Usage
