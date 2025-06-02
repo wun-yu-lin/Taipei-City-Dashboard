@@ -43,13 +43,13 @@ The bug-chef team contributed the following:
 2. **Asynchronous ELK API Logging Architecture**
    (Message Queue, Elasticsearch, Logstash, Kibana)
 
-## Health Guardian Dashboard Components
+### Health Guardian Dashboard Components
 
 <img src='./demo/bug-chef-component.png' style="width: 90%">
 
 <img src='./demo/bug-chef-mapbox.png' style="width: 90%">
 
-## Asynchronous ELK Logging Architecture
+### Asynchronous ELK Logging Architecture
 
 1. When an API request is sent, middleware pushes the log message to a RingBuffer.
 2. Multiple workers consume messages from the RingBuffer and process them asynchronously.
@@ -102,7 +102,7 @@ flowchart LR
   style E fill:#ffdada,stroke:#000,fontSize:14px,color:#000
 ```
 
-## Usage
+### Usage
 
 ```bash
 # Installation
@@ -113,7 +113,7 @@ sudo docker compose -f docker-compose-elk.yaml up -d
 # Follow the rest of the steps in the documentation
 ```
 
-## Key Features
+### Key Features
 
 * **Asynchronous Logging**: Does not block the main execution flow; maintains API performance.
 * **RingBuffer**: Processes log messages in FIFO order efficiently.
