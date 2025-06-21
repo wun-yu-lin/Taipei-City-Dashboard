@@ -2,13 +2,17 @@ version: '3.7'
 
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.8.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
     container_name: elasticsearch-elk
     restart: unless-stopped
     build:
       context: elasticsearch/
     environment:
-      - discovery.type=single-node
+        - discovery.type=single-node
+        - xpack.security.enabled=false
+        - xpack.ml.enabled=false
+        - xpack.watcher.enabled=false
+        - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/elasticsearch.yml:ro
       - elasticsearch_data:/usr/share/elasticsearch/data
@@ -16,9 +20,11 @@ services:
       - "9200:9200"
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-oss:7.8.0
+    image: docker.elastic.co/kibana/kibana:7.8.0
     container_name: kibana-elk
     restart: unless-stopped
+    environment:
+      - xpack.security.enabled=false
     depends_on:
       - elasticsearch
     volumes:
@@ -27,7 +33,7 @@ services:
       - "5601:5601"
 
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:7.8.0
+    image: docker.elastic.co/logstash/logstash:7.8.0
     container_name: logstash-elk
     restart: unless-stopped
     depends_on:
