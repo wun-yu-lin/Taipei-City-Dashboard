@@ -16,8 +16,8 @@ export const MapObjectConfig = {
 // City Map View Settings
 export const CityMapView = {
 	taipei: {
-		center: [121.56376521148917, 25.086495621435404],
-		zoom: 10,
+		center: [121.536609, 25.044808],
+		zoom: 12,
 	},
 	metrotaipei:{
 		center: [121.64080359050314, 24.980598540245936],
@@ -424,6 +424,9 @@ export const maplayerCommonLayout = {
 	"symbol-triangle_white": {
 		"icon-image": "triangle_white",
 	},
+	"symbol-youbike_elec": {
+        "icon-image": "youbike_elec",
+    },
 	"symbol-youbike": {
 		"icon-image": [
 			"case",
@@ -461,6 +464,20 @@ export const maplayerCommonLayout = {
 	},
 	"symbol-cctv": {
 		"icon-image": "cctv",
+		"icon-size": [
+			"interpolate",
+			["linear"],
+			["zoom"],
+			11.99,
+			0.7,
+			14,
+			1.1,
+			22,
+			1.4,
+		],
+	},
+	"symbol-live": {
+		"icon-image": "live",
 		"icon-size": [
 			"interpolate",
 			["linear"],

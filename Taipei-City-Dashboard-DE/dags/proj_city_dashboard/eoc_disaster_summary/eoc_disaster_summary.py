@@ -31,7 +31,6 @@ def _transfer(**kwargs):
     # raw_data_db_uri = kwargs.get('raw_data_db_uri')
     # data_folder = kwargs.get('data_folder')
     ready_data_db_uri = kwargs.get('ready_data_db_uri')
-    proxies = kwargs.get('proxies')
     # Retrieve some essential args from `job_config.json`.
     dag_infos = kwargs.get('dag_infos')
     dag_id = dag_infos.get('dag_id')
@@ -39,10 +38,10 @@ def _transfer(**kwargs):
     default_table = dag_infos.get('ready_data_default_table')
     history_table = dag_infos.get('ready_data_history_table')
     history_table = dag_infos.get('ready_data_history_table')
-    URL = '''https://www.eocmap.gov.taipei/DisasterOperationSystemWebAPIUnite/api/DisasterServiceApi/GetDisasterSummary'''
+    URL = '''https://tfd.blob.core.windows.net/blobfs/data/GetDisasterSummary.json'''
     GEOMETRY_TYPE = "Point"   
     FROM_CRS = 4326
-    raw_data = requests.get(URL, proxies=proxies)
+    raw_data = requests.get(URL)
     raw_data_json = raw_data.json()
     df = pd.DataFrame(raw_data_json)
     if df.empty:
@@ -65,7 +64,7 @@ def _transfer(**kwargs):
         "CaseSerious":"case_serious"
         })
     # 將 case_complete 欄位的 True/False 轉換為中文
-    data["case_complete"] = data["case_complete"].map({True: "處理完成", False: "未處理完成"})
+    data["case_complete"] = data["case_complete"].map({True: "處理完成", False: "處理中"})
     gdata = add_point_wkbgeometry_column_to_df(
         data, x=data["lng"], y=data["lat"], from_crs=FROM_CRS
     )

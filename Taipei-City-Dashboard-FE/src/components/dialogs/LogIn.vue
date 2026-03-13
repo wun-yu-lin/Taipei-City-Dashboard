@@ -1,15 +1,31 @@
 <!-- Developed by Taipei Urban Intelligence Center 2023-2024-->
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref,computed } from "vue";
 import { useDialogStore } from "../../store/dialogStore";
 import { useAuthStore } from "../../store/authStore";
 
 import DialogContainer from "./DialogContainer.vue";
 
+function openExternal(url) {
+  const w = window.open('about:blank', '_blank');
+  if (!w) {
+    window.location.href = url;
+    return;
+  }
+  try {
+    w.opener = null;
+  } catch (e) {
+    // 在瀏覽器 console 印出錯誤，避免 no-empty
+    console.error('Failed to set opener to null:', e);
+  }
+  w.location.assign(url);
+}
+
+
 const {
 	VITE_APP_TITLE,
-	PROD,
+	// PROD,
 	VITE_TAIPEIPASS_URL,
 	VITE_TAIPEIPASS_CLIENT_ID,
 	VITE_TAIPEIPASS_SCOPE,
@@ -23,20 +39,23 @@ const email = ref("");
 const password = ref("");
 
 const taipeiPassUrl = computed(() => {
-	return `${VITE_TAIPEIPASS_URL}/oauth2/authorize?response_type=code&client_id=${VITE_TAIPEIPASS_CLIENT_ID}&scope=${VITE_TAIPEIPASS_SCOPE}`;
+	 return `${VITE_TAIPEIPASS_URL}/oauth2/authorize?response_type=code&client_id=${VITE_TAIPEIPASS_CLIENT_ID}&scope=${VITE_TAIPEIPASS_SCOPE}`;
 });
 
 function handleSwitchMode() {
-	if (PROD) {
-		return;
-	} else {
-		loginMode.value = loginMode.value === "tp" ? "email" : "tp";
-		email.value = "";
-		password.value = "";
-	}
+	loginMode.value = loginMode.value === "tp" ? "email" : "tp";
+	email.value = "";
+	password.value = "";
+	// if (PROD) {
+	// 	return;
+	// } else {
+	// 	loginMode.value = loginMode.value === "tp" ? "email" : "tp";
+	// 	email.value = "";
+	// 	password.value = "";
+	// }
 }
 function handleTaipeiPassLogin() {
-	window.open(taipeiPassUrl.value, "_self");
+	 window.open(taipeiPassUrl.value, "_self");
 }
 async function handleEmailLogin() {
 	const loggedIn = await authStore.loginByEmail(email.value, password.value);
@@ -102,10 +121,20 @@ function handleClose() {
         <a
           href="https://tuic.gov.taipei/zh/works/dashboard"
           target="_blank"
-        >臺北城市儀表板</a>的<a
+          rel="noopener"
+          @click.prevent="openExternal('https://tuic.gov.taipei/zh/works/dashboard')"
+        >
+          臺北城市儀表板
+        </a>
+        的
+        <a
           href="https://tuic.gov.taipei/zh/privacy"
           target="_blank"
-        >隱私權政策</a>
+          rel="noopener"
+          @click.prevent="openExternal('https://tuic.gov.taipei/zh/privacy')"
+        >
+          隱私權政策
+        </a>
       </p>
       <p
         :style="{
